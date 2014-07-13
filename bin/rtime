@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'rtime'
+require 'tins/go'
+$opts = Tins::GO.go('n:r:s:c')
+
+name   = $opts['n'] || ARGV * ' '
+client = Rtime::Client.new(redis: $opts['r'], set: $opts['s'])
+
+if $opts['c']
+  puts client.results_as_csv
+else
+  client.execute *ARGV, name: name
+end
